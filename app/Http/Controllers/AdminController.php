@@ -8,29 +8,30 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function list()
+    // Display a listing of the admin users
+    public function list(Request $request)
     {
-        $data['getRecord'] = User::getAdmin();
+        $data['getRecord'] = User::getAdmin($request);
         $data['header_title'] = "Admin List";
         return view('admin.admin.list', $data);
     }
 
+    // Show the form for creating a new admin user
     public function add()
     {
         $data['header_title'] = "Add New Admin";
         return view('admin.admin.add', $data);
     }
 
+    // Store a newly created admin user in storage
     public function insert(Request $request)
     {
-        // Validate form inputs
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
         ]);
 
-        // Create a new user
         $user = new User;
         $user->name = trim($request->name);
         $user->email = trim($request->email);
@@ -41,6 +42,7 @@ class AdminController extends Controller
         return redirect('admin/admin/list')->with('success', "Admin successfully created");
     }
 
+    // Show the form for editing the specified admin user
     public function edit($id)
     {
         $data['getRecord'] = User::getSingle($id);
@@ -52,16 +54,15 @@ class AdminController extends Controller
         }
     }
 
+    // Update the specified admin user in storage
     public function update($id, Request $request)
     {
-        // Validate form inputs
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|string|min:6',
         ]);
 
-        // Update user details
         $user = User::getSingle($id);
         $user->name = trim($request->name);
         $user->email = trim($request->email);
@@ -73,9 +74,9 @@ class AdminController extends Controller
         return redirect('admin/admin/list')->with('success', "Admin successfully updated");
     }
 
+    // Remove the specified admin user from storage
     public function delete($id)
     {
-        // Soft delete user
         $user = User::getSingle($id);
         $user->is_delete = 1;
         $user->save();

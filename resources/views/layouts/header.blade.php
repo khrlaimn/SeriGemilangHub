@@ -101,6 +101,18 @@
                         <p>Admin</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/admin/class/list" class="nav-link @if(Request::segment(2) =='class' ) active @endif">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>Class</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/change_password" class="nav-link @if(Request::segment(2) =='change_password' ) active @endif">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>Change Password</p>
+                    </a>
+                </li>
                 <!-- End Admin-specific menu items -->
 
                 <!-- Teacher-specific menu items -->
@@ -111,6 +123,12 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="/teacher/change_password" class="nav-link @if(Request::segment(2) =='change_password' ) active @endif">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>Change Password</p>
+                    </a>
+                </li>
                 <!-- End Teacher-specific menu items -->
 
                 <!-- Student-specific menu items -->
@@ -119,6 +137,12 @@
                     <a href="/student/dashboard" class="nav-link @if(Request::segment(2) =='dashboard' ) active @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/student/change_password" class="nav-link @if(Request::segment(2) =='change_password' ) active @endif">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>Change Password</p>
                     </a>
                 </li>
                 <!-- End Student-specific menu items -->

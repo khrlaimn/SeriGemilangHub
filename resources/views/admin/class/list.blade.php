@@ -8,12 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <!-- Title with total count of admin users -->
-                    <h1>Admin List (Total : {{ $getRecord->total() }})</h1>
+                    <!-- Title with total count of classes -->
+                    <h1>Class List</h1>
                 </div>
                 <div class="col-sm-6" style="text-align: right;">
-                    <!-- Button to add a new admin -->
-                    <a href="{{url('admin/admin/add')}}" class="btn btn-primary"> Add New Admin</a>
+                    <!-- Button to add a new class -->
+                    <a href="{{url('admin/class/add')}}" class="btn btn-primary"> Add New Class</a>
                 </div>
             </div>
         </div>
@@ -25,10 +25,10 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <!-- Search Admin card -->
+                    <!-- Search Class card -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Search Admin</h3>
+                            <h3 class="card-title">Search Class</h3>
                         </div>
                         <!-- Search form -->
                         <form method="get" action="">
@@ -39,11 +39,6 @@
                                         <label>Name</label>
                                         <input type="text" class="form-control" value="{{ Request::get('name') }}" name="name" placeholder="Name">
                                     </div>
-                                    <!-- Email Field -->
-                                    <div class="form-group  col-md-3">
-                                        <label>Email</label>
-                                        <input type="text" class="form-control" value="{{ Request::get('email') }}" name="email" placeholder="Email">
-                                    </div>
                                     <!-- Date Field -->
                                     <div class="form-group  col-md-3">
                                         <label>Date</label>
@@ -52,7 +47,7 @@
                                     <div class="form-group col-md-3">
                                         <!-- Search and Reset buttons -->
                                         <button class="btn btn-primary" type="submit" style="margin-top: 30px;">Search</button>
-                                        <a href="{{ url('admin/admin/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
+                                        <a href="{{ url('admin/class/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
                                     </div>
                                 </div>
                             </div>
@@ -71,35 +66,41 @@
                     </div>
                     @endif
 
-                    <!-- Admin List card -->
+                    <!-- Class List card -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Admin List</h3>
+                            <h3 class="card-title">Class List</h3>
                         </div>
-                        <!-- Admin List table -->
+                        <!-- Class List table -->
                         <div class="card-body p-0">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Name</th>
-                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Created By</th>
                                         <th>Created Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($getRecord as $value)
+                                    @foreach($getRecord as $value)
                                     <tr>
-                                        <!-- Admin details -->
                                         <td>{{ $value->id }}</td>
                                         <td>{{ $value->name }}</td>
-                                        <td>{{ $value->email }}</td>
-                                        <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
-                                        <!-- Edit and Delete buttons -->
                                         <td>
-                                            <a href="{{ url('admin/admin/edit/' . $value->id) }}" class="btn btn-primary">Edit</a>
-                                            <a href="{{ url('admin/admin/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger">Delete</a>
+                                            @if ($value->status == 0)
+                                            Active
+                                            @else
+                                            Inactive
+                                            @endif
+                                        </td>
+                                        <td>{{ $value->created_by_name }}</td>
+                                        <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
+                                        <td>
+                                            <a href="{{ url('admin/class/edit/' . $value->id) }}" class="btn btn-primary">Edit</a>
+                                            <a href="{{ url('admin/class/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                     @endforeach
