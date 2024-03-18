@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,16 @@ Route::group(['middleware' => 'admin'], function () {
         Route::get('edit/{id}', [AdminController::class, 'edit']);
         Route::post('edit/{id}', [AdminController::class, 'update']);
         Route::get('delete/{id}', [AdminController::class, 'delete']);
+    });
+
+    // Student Management
+    Route::prefix('admin/student')->group(function () {
+        Route::get('list', [StudentController::class, 'list']);
+        Route::get('add', [StudentController::class, 'add']);
+        Route::post('add', [StudentController::class, 'insert']);
+        Route::get('edit/{id}', [StudentController::class, 'edit']);
+        Route::post('edit/{id}', [StudentController::class, 'update']);
+        Route::get('delete/{id}', [StudentController::class, 'delete']);
     });
 
     // Class Management
