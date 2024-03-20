@@ -9,11 +9,11 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <!-- Title with total count of admin users -->
-                    <h1>Student List (Total : {{ $getRecord->total() }})</h1>
+                    <h1>Teacher List (Total : {{ $getRecord->total() }})</h1>
                 </div>
                 <div class="col-sm-6" style="text-align: right;">
                     <!-- Button to add a new admin -->
-                    <a href="{{url('admin/student/add')}}" class="btn btn-primary"> Add New Student</a>
+                    <a href="{{url('admin/teacher/add')}}" class="btn btn-primary"> Add New Teacher</a>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                     <!-- Search Student card -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Search Student</h3>
+                            <h3 class="card-title">Search Teacher</h3>
                         </div>
                         <!-- Search form -->
                         <form method="get" action="">
@@ -43,16 +43,6 @@
                                     <div class="form-group  col-md-2">
                                         <label>Email</label>
                                         <input type="text" class="form-control" value="{{ Request::get('email') }}" name="email" placeholder="Email">
-                                    </div>
-                                    <!-- Class Field -->
-                                    <div class="form-group col-md-2">
-                                        <label>Class</label>
-                                        <select class="form-control" name="class_id">
-                                            <option value="">Select Class</option>
-                                            @foreach($getClass as $value)
-                                            <option {{ (Request::get('class_id') == $value->id) ? 'selected' : '' }} value="{{ $value->id }}">{{ $value->name }}</option>
-                                            @endforeach
-                                        </select>
                                     </div>
                                     <!-- Gender Field -->
                                     <div class="form-group col-md-2">
@@ -103,7 +93,7 @@
                                     <div class="form-group col-md-3">
                                         <!-- Search and Reset buttons -->
                                         <button class="btn btn-primary" type="submit" style="margin-top: 30px;">Search</button>
-                                        <a href="{{ url('admin/student/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
+                                        <a href="{{ url('admin/teacher/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +116,7 @@
                     <!-- Admin List card -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Student List</h3>
+                            <h3 class="card-title">Teacher List</h3>
                         </div>
                         <!-- Admin List table -->
                         <div class="card-body p-0" style="overflow: auto;">
@@ -137,7 +127,6 @@
                                         <th>Profile Picture </th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Class</th>
                                         <th>Gender</th>
                                         <th>Date of Birth</th>
                                         <th>Religion</th>
@@ -158,7 +147,6 @@
                                         </td>
                                         <td>{{ $value->name }} {{ $value->last_name }}</td>
                                         <td>{{ $value->email }}</td>
-                                        <td>{{ $value->class_name }}</td>
                                         <td>{{ $value->gender }}</td>
                                         <td>{{ date('d-m-Y', strtotime($value->date_of_birth)) }}</td>
                                         <td>
@@ -172,8 +160,8 @@
                                         <td>{{ ($value->status == 0) ? 'Active' : 'Inactive' }}</td>
                                         <!-- Edit and Delete buttons -->
                                         <td style="min-width: 150px;">
-                                            <a href="{{ url('admin/student/edit/' . $value->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="{{ url('admin/student/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger btn-sm">Delete</a>
+                                            <a href="{{ url('admin/teacher/edit/' . $value->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="{{ url('admin/teacher/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger btn-sm">Delete</a>
                                         </td>
                                     </tr>
                                     @endforeach

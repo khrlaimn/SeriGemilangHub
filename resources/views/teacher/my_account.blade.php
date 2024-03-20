@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Student</h1>
+                    <h1>My Account</h1>
                 </div>
             </div>
         </div>
@@ -19,6 +19,18 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+
+                    <!-- Display success or error messages -->
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @elseif(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
                     <div class="card card-primary">
                         <!-- Form -->
                         <form method="post" action="" enctype="multipart/form-data">
@@ -31,32 +43,6 @@
                                         <label>Name <span style="color:red;">*</span> </label>
                                         <input type="text" class="form-control" value="{{ old('name', $getRecord->name) }}" name="name" required placeholder="First Name">
                                         <div style="color:red">{{ $errors->first('name') }}</div>
-                                    </div>
-
-                                    <!-- Admission Number Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Admission Number <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('admission_number', $getRecord->admission_number) }}" name="admission_number" required placeholder="Admission Number">
-                                        <div style="color:red">{{ $errors->first('admission_number') }}</div>
-                                    </div>
-
-                                    <!-- Roll Number Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Roll Number <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('roll_number', $getRecord->roll_number) }}" name="roll_number" required placeholder="Roll Number">
-                                        <div style="color:red">{{ $errors->first('roll_number') }}</div>
-                                    </div>
-
-                                    <!-- Class Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Class <span style="color:red;">*</span> </label>
-                                        <select class="form-control" required name="class_id">
-                                            <option value="">Select Class</option>
-                                            @foreach($getClass as $value)
-                                            <option {{ (old('class_id', $getRecord->class_id) == $value->id) ? 'selected' : '' }} value="{{ $value->id }}">{{ $value->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div style="color:red">{{ $errors->first('class_id') }}</div>
                                     </div>
 
                                     <!-- Gender Field -->
@@ -129,11 +115,6 @@
                                     <input type="email" class="form-control" value="{{ old('email', $getRecord->email) }}" name="email" required placeholder="Email">
                                     <!-- Displaying Validation Error -->
                                     <div style="color:red">{{ $errors->first('email') }}</div>
-                                </div>
-                                <!-- Password Field -->
-                                <div class="form-group">
-                                    <label>Password <span style="color:red;"></span> </label>
-                                    <input type="text" class="form-control" name="password" placeholder="Password">
                                 </div>
                             </div>
                             <!-- Form Footer -->

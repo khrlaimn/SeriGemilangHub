@@ -96,9 +96,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="/admin/account" class="nav-link @if(Request::segment(2) =='account' ) active @endif">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>My Account</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="/admin/admin/list" class="nav-link @if(Request::segment(2) =='admin' ) active @endif">
                         <i class="nav-icon far fa-user"></i>
                         <p>Admin</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/teacher/list" class="nav-link @if(Request::segment(2) =='teacher' ) active @endif">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>Teacher</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -127,6 +139,12 @@
                     <a href="/teacher/dashboard" class="nav-link @if(Request::segment(2) =='dashboard' ) active @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/teacher/account" class="nav-link @if(Request::segment(2) =='account' ) active @endif">
+                        <i class="nav-icon far fa-user"></i>
+                        <p>My Account</p>
                     </a>
                 </li>
                 <li class="nav-item">

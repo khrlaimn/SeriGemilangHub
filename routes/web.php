@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,13 @@ Route::post('reset/{token}', [AuthController::class, 'PostReset'])->name('PostRe
 Route::group(['middleware' => 'admin'], function () {
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard']);
 
+
+    // Edit Profile
+    Route::prefix('admin')->group(function () {
+        Route::get('account', [UserController::class, 'MyAccount']);
+        Route::post('account', [UserController::class, 'UpdateMyAccountAdmin']);
+    });
+
     // Admin Management
     Route::prefix('admin/admin')->group(function () {
         Route::get('list', [AdminController::class, 'list']);
@@ -42,6 +50,16 @@ Route::group(['middleware' => 'admin'], function () {
         Route::get('edit/{id}', [AdminController::class, 'edit']);
         Route::post('edit/{id}', [AdminController::class, 'update']);
         Route::get('delete/{id}', [AdminController::class, 'delete']);
+    });
+
+    // Teacher Management
+    Route::prefix('admin/teacher')->group(function () {
+        Route::get('list', [TeacherController::class, 'list']);
+        Route::get('add', [TeacherController::class, 'add']);
+        Route::post('add', [TeacherController::class, 'insert']);
+        Route::get('edit/{id}', [TeacherController::class, 'edit']);
+        Route::post('edit/{id}', [TeacherController::class, 'update']);
+        Route::get('delete/{id}', [TeacherController::class, 'delete']);
     });
 
     // Student Management
@@ -76,6 +94,10 @@ Route::group(['middleware' => 'teacher'], function () {
     // Change Password
     Route::get('teacher/change_password', [UserController::class, 'change_password']);
     Route::post('teacher/change_password', [UserController::class, 'update_change_password']);
+
+    // Edit Profile
+    Route::get('teacher/account', [UserController::class, 'MyAccount']);
+    Route::post('teacher/account', [UserController::class, 'UpdateMyAccount']);
 });
 
 // Student routes

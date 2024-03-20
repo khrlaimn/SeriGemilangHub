@@ -32,12 +32,6 @@
                                         <input type="text" class="form-control" value="{{ old('name') }}" name="name" required placeholder="First Name">
                                         <div style="color:red">{{ $errors->first('name') }}</div>
                                     </div>
-                                    <!-- Last Name Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Last Name <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('last_name') }}" name="last_name" required placeholder="Last Name">
-                                        <div style="color:red">{{ $errors->first('last_name') }}</div>
-                                    </div>
                                     <!-- Admission Number Field -->
                                     <div class="form-group col-md-6">
                                         <label>Admission Number <span style="color:red;">*</span> </label>

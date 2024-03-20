@@ -59,6 +59,56 @@ class User extends Authenticatable
         return $query->orderBy('id', 'desc')->paginate(4);
     }
 
+    static public function getTeacher(Request $request)
+    {
+        $query = self::select('users.*')
+            ->where('users.user_type', '=', 2)
+            ->where('users.is_delete', '=', 0);
+
+        // Filter by name
+        if (!empty($request->get('name'))) {
+            $query->where('users.name', 'like', '%' . $request->get('name') . '%');
+        }
+
+        // Filter by email
+        if (!empty($request->get('email'))) {
+            $query->where('users.email', 'like', '%' . $request->get('email') . '%');
+        }
+
+        // Filter by gender
+        if (!empty($request->get('gender'))) {
+            $query->where('users.gender', '=', $request->get('gender'));
+        }
+
+        // Filter by religion
+        if ($request->filled('religion')) {
+            $query->where('users.religion', '=', $request->get('religion'));
+        }
+
+        // Filter by mobile number
+        if (!empty($request->get('mobile_number'))) {
+            $query->where('users.mobile_number', 'like', '%' . $request->get('mobile_number') . '%');
+        }
+
+        // Filter by status
+        // if ($request->has('status')) {
+        //     $status = ($request->get('status') == 100) ? 0 : 1;
+        //     $query->where('users.status', '=',  $status);
+        // }
+
+        // Filter by date of birth
+        if (!empty($request->get('date_of_birth'))) {
+            $query->whereDate('users.date_of_birth', 'like', $request->get('date_of_birth'));
+        }
+
+        // Filter by creation date
+        if (!empty($request->get('created_at'))) {
+            $query->whereDate('users.created_at', 'like', $request->get('created_at'));
+        }
+
+        return $query->orderBy('users.id', 'desc')->paginate(4);
+    }
+
     // Get students based on request parameters
     static public function getStudent(Request $request)
     {
@@ -80,11 +130,6 @@ class User extends Authenticatable
         // Filter by class ID
         if (!empty($request->get('class_id'))) {
             $query->where('users.class_id', '=', $request->get('class_id'));
-        }
-
-        // Filter by class gender
-        if (!empty($request->get('class'))) {
-            $query->where('class.gender', '=', $request->get('class'));
         }
 
         // Filter by gender

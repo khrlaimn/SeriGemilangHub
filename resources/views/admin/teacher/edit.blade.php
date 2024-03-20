@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Student</h1>
+                    <h1>Edit Teacher</h1>
                 </div>
             </div>
         </div>
@@ -31,32 +31,6 @@
                                         <label>Name <span style="color:red;">*</span> </label>
                                         <input type="text" class="form-control" value="{{ old('name', $getRecord->name) }}" name="name" required placeholder="First Name">
                                         <div style="color:red">{{ $errors->first('name') }}</div>
-                                    </div>
-
-                                    <!-- Admission Number Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Admission Number <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('admission_number', $getRecord->admission_number) }}" name="admission_number" required placeholder="Admission Number">
-                                        <div style="color:red">{{ $errors->first('admission_number') }}</div>
-                                    </div>
-
-                                    <!-- Roll Number Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Roll Number <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('roll_number', $getRecord->roll_number) }}" name="roll_number" required placeholder="Roll Number">
-                                        <div style="color:red">{{ $errors->first('roll_number') }}</div>
-                                    </div>
-
-                                    <!-- Class Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Class <span style="color:red;">*</span> </label>
-                                        <select class="form-control" required name="class_id">
-                                            <option value="">Select Class</option>
-                                            @foreach($getClass as $value)
-                                            <option {{ (old('class_id', $getRecord->class_id) == $value->id) ? 'selected' : '' }} value="{{ $value->id }}">{{ $value->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div style="color:red">{{ $errors->first('class_id') }}</div>
                                     </div>
 
                                     <!-- Gender Field -->

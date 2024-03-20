@@ -51,7 +51,6 @@ class StudentController extends Controller
 
         // Set user data from form inputs
         $student->name = trim($request->name);
-        $student->last_name = trim($request->last_name);
         $student->admission_number = trim($request->admission_number);
         $student->roll_number = trim($request->roll_number);
         $student->class_id = trim($request->class_id);
@@ -119,7 +118,6 @@ class StudentController extends Controller
         if (!empty($student)) {
             // Set user data from form inputs
             $student->name = trim($request->name);
-            $student->last_name = trim($request->last_name);
             $student->admission_number = trim($request->admission_number);
             $student->roll_number = trim($request->roll_number);
             $student->class_id = trim($request->class_id);
