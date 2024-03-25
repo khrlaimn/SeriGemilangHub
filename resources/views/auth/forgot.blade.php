@@ -21,8 +21,12 @@
         <!-- Card for login -->
         <div class="card card-outline card-primary text-center">
             <div class="card-header text-center">
-                <a href="" class="h1"><b>Forgot Password</b></a>
+                <a href="">
+                    <img src="/dist/img/SGHLogoNoBg.png" alt="Logo" style="max-height: 150px; border-radius: 50%;">
+                    <h1 class="h1" style="display: inline-block;"><b>Forgot Password</b></h1>
+                </a>
             </div>
+
             <div class="card-body">
 
                 <!-- Display success or error messages -->

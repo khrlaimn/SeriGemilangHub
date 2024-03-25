@@ -177,4 +177,16 @@ class StudentController extends Controller
             abort(404);
         }
     }
+
+    //teacher side work
+    public function MyStudent(Request $request)
+    {
+        // Retrieve student records based on request parameters
+        $data['getRecord'] = User::getTeacherStudent(Auth::user()->id, $request);
+        $data['getClass'] = ClassModel::getClass();
+        $data['header_title'] = "My Student List";
+
+        // Render the view with data
+        return view('teacher.my_student', $data);
+    }
 }

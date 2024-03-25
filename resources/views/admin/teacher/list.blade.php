@@ -75,15 +75,14 @@
                                         <input type="date" class="form-control" value="{{ Request::get('date_of_birth') }}" name="date_of_birth">
                                     </div>
                                     <!-- Status Field -->
-                                    <!-- <div class="form-group col-md-2">
+                                    <div class="form-group col-md-2">
                                         <label>Status</label>
                                         <select class="form-control" name="status">
                                             <option value="">Select Status</option>
                                             <option {{ (Request::get('status') == 100) ? 'selected' : '' }} value="100">Active</option>
-                                            <option {{ (Request::get('status') === 1) ? 'selected' : '' }} value="1">Inactive</option>
+                                            <option {{ (Request::get('status') == 1) ? 'selected' : '' }} value="1">Inactive</option>
                                         </select>
                                     </div>
-                                     -->
                                     <!-- Date Field -->
                                     <!-- <div class="form-group  col-md-2">
                                         <label>Created Date</label>
@@ -157,7 +156,13 @@
                                         </td>
 
                                         <td>{{ $value->mobile_number }}</td>
-                                        <td>{{ ($value->status == 0) ? 'Active' : 'Inactive' }}</td>
+                                        <td>
+                                            @if ($value->status == 0)
+                                            <span class="badge badge-success">Active</span>
+                                            @else
+                                            <span class="badge badge-danger">Inactive</span>
+                                            @endif
+                                        </td>
                                         <!-- Edit and Delete buttons -->
                                         <td style="min-width: 150px;">
                                             <a href="{{ url('admin/teacher/edit/' . $value->id) }}" class="btn btn-primary btn-sm">Edit</a>

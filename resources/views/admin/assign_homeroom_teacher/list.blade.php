@@ -9,11 +9,11 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <!-- Title with total count of classes -->
-                    <h1>Class List</h1>
+                    <h1>Assign Homeroom Teacher (Total : {{ $getRecord->total() }})</h1>
                 </div>
                 <div class="col-sm-6" style="text-align: right;">
                     <!-- Button to add a new class -->
-                    <a href="{{url('admin/class/add')}}" class="btn btn-primary"> Add New Class</a>
+                    <a href="{{url('admin/assign_homeroom_teacher/add')}}" class="btn btn-primary"> Add New Assign Class Teacher </a>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                     <!-- Search Class card -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Search Class</h3>
+                            <h3 class="card-title">Search Homeroom Teacher</h3>
                         </div>
                         <!-- Search form -->
                         <form method="get" action="">
@@ -36,11 +36,16 @@
                                 <div class="row">
                                     <!-- Name Field -->
                                     <div class="form-group col-md-3">
-                                        <label>Name</label>
-                                        <input type="text" class="form-control" value="{{ Request::get('name') }}" name="name" placeholder="Name">
+                                        <label>Class Name</label>
+                                        <input type="text" class="form-control" value="{{ Request::get('class_name') }}" name="class_name" placeholder="Class Name">
+                                    </div>
+                                    <!-- Name Field -->
+                                    <div class="form-group col-md-3">
+                                        <label>Teacher Name</label>
+                                        <input type="text" class="form-control" value="{{ Request::get('teacher_name') }}" name="teacher_name" placeholder="Teacher Name">
                                     </div>
                                     <!-- Status Field -->
-                                    <div class="form-group col-md-2">
+                                    <div class="form-group col-md-3">
                                         <label>Status</label>
                                         <select class="form-control" name="status">
                                             <option value="">Select Status</option>
@@ -56,7 +61,7 @@
                                     <div class="form-group col-md-3">
                                         <!-- Search and Reset buttons -->
                                         <button class="btn btn-primary" type="submit" style="margin-top: 30px;">Search</button>
-                                        <a href="{{ url('admin/class/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
+                                        <a href="{{ url('admin/assign_homeroom_teacher/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +83,7 @@
                     <!-- Class List card -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Class List</h3>
+                            <h3 class="card-title">Homeroom Teacher List</h3>
                         </div>
                         <!-- Class List table -->
                         <div class="card-body p-0">
@@ -86,7 +91,8 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>Name</th>
+                                        <th>Class Name</th>
+                                        <th>Teacher Name</th>
                                         <th>Status</th>
                                         <th>Created By</th>
                                         <th>Created Date</th>
@@ -94,10 +100,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($getRecord as $value)
+                                    @foreach ($getRecord as $value)
                                     <tr>
+                                        <!-- Admin details -->
                                         <td>{{ $value->id }}</td>
-                                        <td>{{ $value->name }}</td>
+                                        <td>{{ $value->class_name }}</td>
+                                        <td>{{ $value->teacher_name }}</td>
                                         <td>
                                             @if ($value->status == 0)
                                             <span class="badge badge-success">Active</span>
@@ -106,10 +114,12 @@
                                             @endif
                                         </td>
                                         <td>{{ $value->created_by_name }}</td>
-                                        <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($value->created_at)) }}</td>
+                                        <!-- Edit and Delete buttons -->
                                         <td>
-                                            <a href="{{ url('admin/class/edit/' . $value->id) }}" class="btn btn-primary">Edit</a>
-                                            <a href="{{ url('admin/class/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger">Delete</a>
+                                            <a href="{{ url('admin/assign_homeroom_teacher/edit/' . $value->id) }}" class="btn btn-primary">Edit</a>
+                                            <a href="{{ url('admin/assign_homeroom_teacher/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger">Delete</a>
+                                        </td>
                                         </td>
                                     </tr>
                                     @endforeach

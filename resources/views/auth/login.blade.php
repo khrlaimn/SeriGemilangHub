@@ -21,8 +21,13 @@
         <!-- Card for login -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="" class="h1"><b>Login</b></a>
+                <a href="">
+                    <img src="/dist/img/SGHLogoNoBg.png" alt="Logo" style="max-height: 150px; border-radius: 50%;">
+                    <h1 class="h1"><b>Login</b></h1>
+                </a>
             </div>
+
+
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 

@@ -29,6 +29,12 @@ class ClassModel extends Model
             $query->where('class.name', 'like', '%' . $request->get('name') . '%');
         }
 
+        // Filter by status
+        if (!empty($request->input('status'))) {
+            $status = ($request->input('status') == 100) ? 0 : 1;
+            $query->where('class.status', '=', $status);
+        }
+
         // Filter by creation date
         if (!empty($request->get('date'))) {
             $query->whereDate('class.created_at', '=', $request->get('date'));

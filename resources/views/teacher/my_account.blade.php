@@ -19,24 +19,31 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-
-                    <!-- Display success or error messages -->
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    @elseif(session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
-
                     <div class="card card-primary">
+                        <!-- Profile Picture -->
+                        <div class="card-header" style="background-color: #f2f2f2;">
+                            <div class="text-center">
+                                <img src="{{ $getRecord->getProfile() }}" style="width: 150px; height: 150px; border-radius: 50%;" alt="Profile Picture">
+                            </div>
+                        </div>
+
+
                         <!-- Form -->
                         <form method="post" action="" enctype="multipart/form-data">
                             <!-- CSRF Token -->
                             {{ csrf_field() }}
                             <div class="card-body">
+                                <!-- Display success or error messages -->
+                                @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                                @elseif(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                                @endif
+
                                 <div class="row">
                                     <!-- Name Field -->
                                     <div class="form-group col-md-6">
@@ -67,7 +74,7 @@
                                     <div class="form-group col-md-6">
                                         <label>Religion <span style="color:red;">*</span> </label>
                                         <select class="form-control" required name="religion">
-                                            <option value="">Select Status</option>
+                                            <option value="">Select Religion</option>
                                             <option {{ (old('religion', $getRecord->religion) == 0) ? 'selected' : '' }} value="0">Islam</option>
                                             <option {{ (old('religion', $getRecord->religion) == 1) ? 'selected' : '' }} value="1">Buddhist</option>
                                             <option {{ (old('religion', $getRecord->religion) == 2) ? 'selected' : '' }} value="2">Christians</option>
@@ -83,19 +90,6 @@
                                         <div style="color:red">{{ $errors->first('mobile_number') }}</div>
                                     </div>
 
-                                    <!-- Profile Picture Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Profile Picture <span style="color:red;">*</span> </label>
-
-                                        <input type="file" class="form-control" name="profile_pic" accept="image/*">
-                                        @error('profile_pic')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                        @if(!empty($getRecord->getProfile()))
-                                        @endif
-                                        <img src="{{ $getRecord->getProfile() }}" style="width: auto; height: 100px;" alt="No picture">
-                                    </div>
-
                                     <!-- Status Field -->
                                     <div class="form-group col-md-6">
                                         <label>Status <span style="color:red;">*</span> </label>
@@ -105,16 +99,36 @@
                                             <option {{ (old('status', $getRecord->status) == 1) ? 'selected' : '' }} value="1">Inactive</option>
                                         </select>
                                     </div>
-                                </div>
 
-                                <hr />
+                                    <!-- Profile Picture Field -->
+                                    <div class="form-group col-md-6">
+                                        <label>Profile Picture <span style="color:red;">*</span> </label>
 
-                                <!-- Email Field -->
-                                <div class="form-group">
-                                    <label>Email <span style="color:red;">*</span> </label>
-                                    <input type="email" class="form-control" value="{{ old('email', $getRecord->email) }}" name="email" required placeholder="Email">
-                                    <!-- Displaying Validation Error -->
-                                    <div style="color:red">{{ $errors->first('email') }}</div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="profile_pic" name="profile_pic" accept="image/*">
+                                            <label class="custom-file-label" for="profile_pic">Choose file</label>
+                                        </div>
+                                        @error('profile_pic')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+
+                                        <!-- Display current profile picture if exists -->
+                                        @if(!empty($getRecord->getProfile()))
+                                        <div class="mt-2">
+                                            <img src="{{ $getRecord->getProfile() }}" style="width: auto; height: 100px;" alt="Current Profile Picture">
+                                        </div>
+                                        @endif
+                                    </div>
+
+
+
+                                    <!-- Email Field -->
+                                    <div class="form-group col-md-12">
+                                        <label>Email <span style="color:red;">*</span> </label>
+                                        <input type="email" class="form-control" value="{{ old('email', $getRecord->email) }}" name="email" required placeholder="Email">
+                                        <!-- Displaying Validation Error -->
+                                        <div style="color:red">{{ $errors->first('email') }}</div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Form Footer -->

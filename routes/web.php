@@ -8,6 +8,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\AssignHomeroomTeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,16 @@ Route::group(['middleware' => 'admin'], function () {
         Route::get('delete/{id}', [ClassController::class, 'delete']);
     });
 
+    // Assign Homeroom Teacher
+    Route::prefix('admin/assign_homeroom_teacher')->group(function () {
+        Route::get('list', [AssignHomeroomTeacherController::class, 'list']);
+        Route::get('add', [AssignHomeroomTeacherController::class, 'add']);
+        Route::post('add', [AssignHomeroomTeacherController::class, 'insert']);
+        Route::get('edit/{id}', [AssignHomeroomTeacherController::class, 'edit']);
+        Route::post('edit/{id}', [AssignHomeroomTeacherController::class, 'update']);
+        Route::get('delete/{id}', [AssignHomeroomTeacherController::class, 'delete']);
+    });
+
     // Change Password
     Route::get('admin/change_password', [UserController::class, 'change_password']);
     Route::post('admin/change_password', [UserController::class, 'update_change_password']);
@@ -98,6 +109,9 @@ Route::group(['middleware' => 'teacher'], function () {
     // Edit Profile
     Route::get('teacher/account', [UserController::class, 'MyAccount']);
     Route::post('teacher/account', [UserController::class, 'UpdateMyAccount']);
+
+    // My Student
+    Route::get('teacher/my_student', [StudentController::class, 'MyStudent']);
 });
 
 // Student routes

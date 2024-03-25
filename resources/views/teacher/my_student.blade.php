@@ -9,11 +9,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <!-- Title with total count of admin users -->
-                    <h1>Student List (Total : {{ $getRecord->total() }})</h1>
-                </div>
-                <div class="col-sm-6" style="text-align: right;">
-                    <!-- Button to add a new admin -->
-                    <a href="{{url('admin/student/add')}}" class="btn btn-primary"> Add New Student</a>
+                    <h1>My Student List</h1>
                 </div>
             </div>
         </div>
@@ -103,7 +99,7 @@
                                     <div class="form-group col-md-3">
                                         <!-- Search and Reset buttons -->
                                         <button class="btn btn-primary" type="submit" style="margin-top: 30px;">Search</button>
-                                        <a href="{{ url('admin/student/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
+                                        <a href="{{ url('teacher/my_student') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +139,7 @@
                                         <th>Religion</th>
                                         <th>Mobile Number</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <!-- <th>Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -177,10 +173,10 @@
                                             @endif
                                         </td>
                                         <!-- Edit and Delete buttons -->
-                                        <td style="min-width: 150px;">
+                                        <!-- <td style="min-width: 150px;">
                                             <a href="{{ url('admin/student/edit/' . $value->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                             <a href="{{ url('admin/student/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     @endforeach
                                 </tbody>

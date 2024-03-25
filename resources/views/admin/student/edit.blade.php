@@ -20,6 +20,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-primary">
+                        <!-- Profile Picture -->
+                        <div class="card-header" style="background-color: #f2f2f2;">
+                            <div class="text-center">
+                                <img src="{{ $getRecord->getProfile() }}" style="width: 150px; height: 150px; border-radius: 50%;" alt="Profile Picture">
+                            </div>
+                        </div>
                         <!-- Form -->
                         <form method="post" action="" enctype="multipart/form-data">
                             <!-- CSRF Token -->
