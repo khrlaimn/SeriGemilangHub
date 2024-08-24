@@ -8,8 +8,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <!-- Title with total count of admin users -->
-                    <h1>Admin List (Total : {{ $getRecord->total() }})</h1>
                 </div>
                 <div class="col-sm-6" style="text-align: right;">
                     <!-- Button to add a new admin -->
@@ -45,10 +43,10 @@
                                         <input type="text" class="form-control" value="{{ Request::get('email') }}" name="email" placeholder="Email">
                                     </div>
                                     <!-- Date Field -->
-                                    <div class="form-group  col-md-3">
+                                    <!-- <div class="form-group  col-md-3">
                                         <label>Date</label>
                                         <input type="date" class="form-control" value="{{ Request::get('date') }}" name="date" placeholder="Date">
-                                    </div>
+                                    </div> -->
                                     <div class="form-group col-md-3">
                                         <!-- Search and Reset buttons -->
                                         <button class="btn btn-primary" type="submit" style="margin-top: 30px;">Search</button>
@@ -81,21 +79,30 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">#</th>
+                                        <th>No.</th>
+                                        <th>Profile Picture </th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Created Date</th>
+                                        <!-- <th>Created Date</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $offset = ($getRecord->currentPage() - 1) * $getRecord->perPage();
+                                    @endphp
                                     @foreach ($getRecord as $value)
                                     <tr>
                                         <!-- Admin details -->
-                                        <td>{{ $value->id }}</td>
+                                        <td>{{ $offset + $loop->iteration }}</td>
+                                        <td>
+                                            @if(!empty($value->getProfile()))
+                                            <img src="{{ $value->getProfile() }}" style="height: 50px; width: 50px; border-radius: 50px;">
+                                            @endif
+                                        </td>
                                         <td>{{ $value->name }}</td>
                                         <td>{{ $value->email }}</td>
-                                        <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
+                                        <!-- <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td> -->
                                         <!-- Edit and Delete buttons -->
                                         <td>
                                             <a href="{{ url('admin/admin/edit/' . $value->id) }}" class="btn btn-primary">Edit</a>

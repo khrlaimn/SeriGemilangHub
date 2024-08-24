@@ -8,12 +8,10 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <!-- Title with total count of classes -->
-                    <h1>Assign Homeroom Teacher (Total : {{ $getRecord->total() }})</h1>
                 </div>
                 <div class="col-sm-6" style="text-align: right;">
                     <!-- Button to add a new class -->
-                    <a href="{{url('admin/assign_homeroom_teacher/add')}}" class="btn btn-primary"> Add New Assign Class Teacher </a>
+                    <a href="{{url('admin/assign_homeroom_teacher/add')}}" class="btn btn-primary"> Add New Homeroom Teacher </a>
                 </div>
             </div>
         </div>
@@ -34,10 +32,17 @@
                         <form method="get" action="">
                             <div class="card-body">
                                 <div class="row">
-                                    <!-- Name Field -->
+                                    <!-- Class Field -->
                                     <div class="form-group col-md-3">
-                                        <label>Class Name</label>
-                                        <input type="text" class="form-control" value="{{ Request::get('class_name') }}" name="class_name" placeholder="Class Name">
+                                        <label>Class</label>
+                                        <select class="form-control" name="class_id">
+                                            <option value="">Select Class</option>
+                                            @foreach($getClass as $value)
+                                            <option value="{{ $value->id }}" {{ (Request::get('class_id') == $value->id) ? 'selected' : '' }}>
+                                                Name: {{ $value->name }}, Grade: {{ $value->standard }}, Year: {{ $value->year }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <!-- Name Field -->
                                     <div class="form-group col-md-3">
@@ -90,7 +95,7 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">#</th>
+                                        <th>No.</th>
                                         <th>Class Name</th>
                                         <th>Teacher Name</th>
                                         <th>Status</th>
@@ -100,10 +105,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $offset = ($getRecord->currentPage() - 1) * $getRecord->perPage();
+                                    @endphp
                                     @foreach ($getRecord as $value)
                                     <tr>
-                                        <!-- Admin details -->
-                                        <td>{{ $value->id }}</td>
+                                        <td>{{ $offset + $loop->iteration }}</td>
                                         <td>{{ $value->class_name }}</td>
                                         <td>{{ $value->teacher_name }}</td>
                                         <td>

@@ -34,12 +34,40 @@ class User extends Authenticatable
         return self::find($id);
     }
 
+    public function class()
+    {
+        return $this->belongsTo(ClassModel::class, 'class_id');
+    }
+
+    public function getReligion()
+    {
+        $religions = ['Islam', 'Buddhist', 'Christians', 'Hindus'];
+
+        return $religions[$this->religion] ?? 'Unknown';
+    }
+
+    static public function getTotalUser($user_types)
+    {
+        // Check if $user_types is an array, if not convert it to an array
+        if (!is_array($user_types)) {
+            $user_types = [$user_types];
+        }
+
+        $query = self::select('users.id')
+            ->whereIn('user_type', $user_types)
+            ->where('is_delete', '=', 0)
+            ->where('status', '=', 0);
+
+        return $query->count();
+    }
+
     // Get admin users based on request parameters
     static public function getAdmin(Request $request)
     {
         $query = self::select('users.*')
-            ->where('user_type', '=', 1)
-            ->where('is_delete', '=', 0);
+            ->whereIn('user_type', [1, 4, 5])
+            ->where('is_delete', 0);
+
 
         // Filter by name
         if (!empty($request->get('name'))) {
@@ -171,20 +199,58 @@ class User extends Authenticatable
         return $query->orderBy('users.id', 'desc')->paginate(4);
     }
 
+    static public function getTeacherStudentCount($teacher_id)
+    {
+        $query = self::select('users.id')
+            ->join('class', 'class.id', '=', 'users.class_id')
+            ->join('assign_homeroom_teacher', 'assign_homeroom_teacher.class_id', '=', 'class.id')
+            ->where('assign_homeroom_teacher.teacher_id', '=', $teacher_id)
+            ->where('assign_homeroom_teacher.status', '=', 0)
+            // ->where('users.status', '=', 0)
+            ->where('assign_homeroom_teacher.is_delete', '=', 0)
+            ->where('users.user_type', '=', 3)
+            ->where('users.is_delete', '=', 0);
+
+        return $query->count();
+    }
+
+    //For add new homeroom teacher
     static public function getTeacherClass()
     {
         $query = self::select('users.*')
             ->where('users.user_type', '=', 2)
-            ->where('users.is_delete', '=', 0);
+            ->where('users.is_delete', '=', 0)
+            ->where('users.status', '=', 0);
 
-        return $query->orderBy('users.id', 'desc')->paginate(4);
+        return $query;
     }
+
+    // static public function getTeacherClass()
+    // {
+    //     return self::where('user_type', '=', 2)
+    //         ->where('is_delete', '=', 0)
+    //         ->where('status', '=', 0)
+    //         ->orderBy('name', 'asc')
+    //         ->get();
+    // }
+
+
+    static public function getTeacherClassTwo()
+    {
+        return self::select('id', 'name')
+            ->where('user_type', '=', 2)
+            ->where('is_delete', '=', 0)
+            ->where('status', '=', 0)
+            ->orderBy('name', 'asc')
+            ->get();
+    }
+
 
     // Get students based on request parameters
     static public function getStudent(Request $request)
     {
         $query = self::select('users.*', 'class.name as class_name')
-            ->join('class', 'class.id', '=', 'users.class_id', 'left')
+            ->leftJoin('class', 'class.id', '=', 'users.class_id') // Change 'left' to 'leftJoin'
             ->where('users.user_type', '=', 3)
             ->where('users.is_delete', '=', 0);
 
@@ -235,6 +301,22 @@ class User extends Authenticatable
         }
 
         return $query->orderBy('users.id', 'desc')->paginate(4);
+    }
+
+    // Get students class based on request parameters
+    static public function getStudentClass($class_id)
+    {
+        return self::select('users.id', 'users.name')
+            ->where('users.user_type', '=', 3)
+            ->where('users.is_delete', '=', 0)
+            ->where('users.class_id', '=', $class_id)
+            ->orderBy('users.id', 'desc')
+            ->get();
+    }
+
+    static public function getAttendance($student_id, $class_id, $attendance_date)
+    {
+        return StudentAttendanceModel::CheckAlreadyAttendance($student_id, $class_id, $attendance_date);
     }
 
     // Get a single user by email

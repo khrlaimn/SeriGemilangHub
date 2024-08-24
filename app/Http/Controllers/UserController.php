@@ -22,6 +22,10 @@ class UserController extends Controller
             return view('admin.my_account', $data);
         } elseif (Auth::user()->user_type == 2) {
             return view('teacher.my_account', $data);
+        } elseif (Auth::user()->user_type == 4) {
+            return view('headmaster.my_account', $data);
+        } elseif (Auth::user()->user_type == 5) {
+            return view('stad.my_account', $data);
         }
     }
 
@@ -34,12 +38,30 @@ class UserController extends Controller
         // Validate form data
         $request->validate([
             'email' => 'required|email|unique:users,email,' . $id,
+            'profile_pic' => 'file|max:2048', // Maximum 2048 KiB (2MB)
+            'mobile_number' => 'max:15|min:10',
         ]);
 
         // Retrieve admin record by ID
         $admin = User::getSingle($id);
         $admin->name = trim($request->name);
         $admin->email = trim($request->email);
+        $admin->mobile_number = trim($request->mobile_number);
+
+        // Upload and update profile picture if provided
+        if ($request->hasFile('profile_pic')) {
+            if (!empty($admin->profile_pic)) {
+                // Ensure the old file exists before attempting to delete
+                if (file_exists(public_path('upload/profile/' . $admin->profile_pic))) {
+                    unlink(public_path('upload/profile/' . $admin->profile_pic)); // Delete old profile picture
+                }
+            }
+            $ext = $request->file('profile_pic')->getClientOriginalExtension();
+            $randomStr = Str::random(20);
+            $filename = strtolower($randomStr) . '.' . $ext; // Generate random filename
+            $request->file('profile_pic')->move(public_path('upload/profile/'), $filename); // Move uploaded file
+            $admin->profile_pic = $filename; // Save filename in database
+        }
 
         // Save the updated admin record
         $admin->save();
@@ -47,7 +69,6 @@ class UserController extends Controller
         // Redirect with success message
         return redirect()->back()->with('success', 'Account Successfully Updated');
     }
-
 
     // Update account details for a teacher
     public function UpdateMyAccount(Request $request)
@@ -58,7 +79,7 @@ class UserController extends Controller
         // Validate form data
         $request->validate([
             'email' => 'required|email|unique:users,email,' . $id,
-            'profile_pic' => '|file|max:2048', // Maximum 2048 KiB (2MB)
+            'profile_pic' => 'file|max:2048', // Maximum 2048 KiB (2MB)
             'mobile_number' => 'max:15|min:10',
         ]);
 
@@ -75,9 +96,12 @@ class UserController extends Controller
             $user->mobile_number = trim($request->mobile_number);
 
             // Upload and update profile picture if provided
-            if (!empty($request->file('profile_pic'))) {
-                if (!empty($user->getProfile())) {
-                    unlink('upload/profile/' . $user->profile_pic); // Delete old profile picture
+            if ($request->hasFile('profile_pic')) {
+                if (!empty($user->profile_pic)) {
+                    // Ensure the old file exists before attempting to delete
+                    if (file_exists(public_path('upload/profile/' . $user->profile_pic))) {
+                        unlink(public_path('upload/profile/' . $user->profile_pic)); // Delete old profile picture
+                    }
                 }
                 $ext = $request->file('profile_pic')->getClientOriginalExtension();
                 $randomStr = Str::random(20);
@@ -100,21 +124,18 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for changing password.
-     */
+    // Show the form for changing password
     public function change_password()
     {
         $data['header_title'] = "Change Password";
         return view('profile.change_password', $data);
     }
 
-    /**
-     * Update the user's password.
-     */
+    // Update the user's password
     public function update_change_password(Request $request)
     {
         $user = User::getSingle(Auth::user()->id);
+
         if (Hash::check($request->old_password, $user->password)) {
             $user->password = Hash::make($request->new_password);
             $user->save();

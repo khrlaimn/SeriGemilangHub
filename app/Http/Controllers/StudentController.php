@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ClassModel;
 use Illuminate\Support\Str;
@@ -14,12 +13,44 @@ class StudentController extends Controller
     // Display list of students
     public function list(Request $request)
     {
-        // Retrieve student records and class data
-        $data['getRecord'] = User::getStudent($request);
         $data['getClass'] = ClassModel::getClass();
         $data['header_title'] = "Student List";
 
-        // Render the view with data
+        if ($request->hasAny(['name', 'class_id', 'gender', 'religion', 'mobile_number', 'date_of_birth', 'status'])) {
+            $query = User::query()
+                ->leftJoin('class', 'class.id', '=', 'users.class_id')
+                ->where('users.user_type', '=', 3)
+                ->where('users.is_delete', '=', 0);
+
+            if ($request->filled('name')) {
+                $query->where('users.name', 'like', '%' . $request->input('name') . '%');
+            }
+            if ($request->filled('class_id')) {
+                $query->where('users.class_id', $request->input('class_id'));
+            }
+            if ($request->filled('gender')) {
+                $query->where('users.gender', $request->input('gender'));
+            }
+            if ($request->filled('religion')) {
+                $query->where('users.religion', $request->input('religion'));
+            }
+            if ($request->filled('mobile_number')) {
+                $query->where('users.mobile_number', 'like', '%' . $request->input('mobile_number') . '%');
+            }
+            if ($request->filled('date_of_birth')) {
+                $dateOfBirth = date('Y-m-d', strtotime($request->input('date_of_birth')));
+                $query->whereDate('users.date_of_birth', '=', $dateOfBirth);
+            }
+            if ($request->filled('status')) {
+                $query->where('users.status', $request->input('status'));
+            }
+
+            $query->select('users.*', 'class.name as class_name');
+            $data['getRecord'] = $query->paginate(10);
+        } else {
+            $data['getRecord'] = collect();
+        }
+
         return view('admin.student.list', $data);
     }
 
@@ -30,7 +61,7 @@ class StudentController extends Controller
         $data['getClass'] = ClassModel::getClass();
         $data['header_title'] = "Add New Student";
 
-        // Render the view with data
+        // Render the view with dataå
         return view('admin.student.add', $data);
     }
 
@@ -39,11 +70,8 @@ class StudentController extends Controller
     {
         // Validate form data
         $request->validate([
-            'profile_pic' => 'required|file|max:2048', // Maximum 2048 KiB (2MB)
-            'email' => 'required|email|unique:users',
-            'mobile_number' => 'max:15|min:10',
-            'admission_number' => 'max:50',
-            'roll_number' => 'max:50',
+            'profile_pic' => 'required|file|max:2048',
+            'mobile_number' => 'required|numeric|digits_between:9,15',
         ]);
 
         // Create new user instance
@@ -51,8 +79,6 @@ class StudentController extends Controller
 
         // Set user data from form inputs
         $student->name = trim($request->name);
-        $student->admission_number = trim($request->admission_number);
-        $student->roll_number = trim($request->roll_number);
         $student->class_id = trim($request->class_id);
         $student->gender = trim($request->gender);
         $student->date_of_birth = trim($request->date_of_birth);
@@ -66,11 +92,9 @@ class StudentController extends Controller
         $request->file('profile_pic')->move(public_path('upload/profile/'), $filename);
         $student->profile_pic = $filename;
 
-        // Set user status, email, password, and user type
+        // Set user status and user type
         $student->status = trim($request->status);
-        $student->email = trim($request->email);
-        $student->password = Hash::make($request->password);
-        $student->user_type = 3;
+        $student->user_type = 3; // Assuming 3 is the student user type
 
         // Save the student record
         $student->save();
@@ -104,11 +128,8 @@ class StudentController extends Controller
     {
         // Validate form data
         $request->validate([
-            'email' => 'required|email|unique:users,email,' . $id,
             'profile_pic' => '|file|max:2048', // Maximum 2048 KiB (2MB) remove required
             'mobile_number' => 'max:15|min:10',
-            'admission_number' => 'max:50',
-            'roll_number' => 'max:50',
         ]);
 
         // Retrieve student record by ID
@@ -118,8 +139,6 @@ class StudentController extends Controller
         if (!empty($student)) {
             // Set user data from form inputs
             $student->name = trim($request->name);
-            $student->admission_number = trim($request->admission_number);
-            $student->roll_number = trim($request->roll_number);
             $student->class_id = trim($request->class_id);
             $student->gender = trim($request->gender);
             $student->date_of_birth = trim($request->date_of_birth);
@@ -138,20 +157,14 @@ class StudentController extends Controller
                 $student->profile_pic = $filename;
             }
 
-            // Set user status and email
+            // Set user status
             $student->status = trim($request->status);
-            $student->email = trim($request->email);
-
-            // Update password if provided
-            if (!empty($request->password)) {
-                $student->password = Hash::make($request->password);
-            }
 
             // Save the updated student record
             $student->save();
 
             // Redirect with success message
-            return redirect('admin/student/list')->with('success', 'Student Successfully Updated');
+            return redirect()->back()->with('success', 'Student Successfully Updated');
         } else {
             // If record not found, show 404 error
             abort(404);
@@ -178,15 +191,31 @@ class StudentController extends Controller
         }
     }
 
-    //teacher side work
+    // Teacher side work
     public function MyStudent(Request $request)
     {
-        // Retrieve student records based on request parameters
-        $data['getRecord'] = User::getTeacherStudent(Auth::user()->id, $request);
-        $data['getClass'] = ClassModel::getClass();
+        $teacher_id = Auth::user()->id;
+        $data['getRecord'] = User::getTeacherStudent($teacher_id, $request);
+        $data['getClass'] = ClassModel::getClassByTeacher($teacher_id);
         $data['header_title'] = "My Student List";
 
-        // Render the view with data
         return view('teacher.my_student', $data);
+    }
+    public function MyStudentDetails($id)
+    {
+        // Fetch the user record with the 'class' relationship eager loaded
+        $getRecord = User::with('class')->find($id);
+
+        // Check if record exists
+        if (!empty($getRecord)) {
+            // Retrieve class data for dropdown
+            $getClass = ClassModel::getClass();
+            $header_title = "Student Details";
+            // Render the edit view with data
+            return view('teacher.my_student_details', compact('getRecord', 'getClass', 'header_title'));
+        } else {
+            // If record not found, show 404 error
+            abort(404);
+        }
     }
 }

@@ -3,13 +3,10 @@
 @section('content')
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <!-- Title with total count of admin users -->
-                    <h1>Teacher List (Total : {{ $getRecord->total() }})</h1>
                 </div>
                 <div class="col-sm-6" style="text-align: right;">
                     <!-- Button to add a new admin -->
@@ -19,7 +16,6 @@
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -122,7 +118,7 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">#</th>
+                                        <th>No.</th>
                                         <th>Profile Picture </th>
                                         <th>Name</th>
                                         <th>Email</th>
@@ -135,10 +131,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $offset = ($getRecord->currentPage() - 1) * $getRecord->perPage();
+                                    @endphp
                                     @foreach ($getRecord as $value)
                                     <tr>
                                         <!-- Student details -->
-                                        <td>{{ $value->id }}</td>
+                                        <td>{{ $offset + $loop->iteration }}</td>
                                         <td>
                                             @if(!empty($value->getProfile()))
                                             <img src="{{ $value->getProfile() }}" style="height: 50px; width: 50px; border-radius: 50px;">

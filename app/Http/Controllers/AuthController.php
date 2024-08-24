@@ -23,6 +23,10 @@ class AuthController extends Controller
                 return redirect('teacher/dashboard');
             } elseif (Auth::user()->user_type == 3) {
                 return redirect('student/dashboard');
+            } elseif (Auth::user()->user_type == 4) {
+                return redirect('headmaster/dashboard');
+            } elseif (Auth::user()->user_type == 5) {
+                return redirect('stad/dashboard');
             }
         }
         return view('auth.login');
@@ -42,6 +46,10 @@ class AuthController extends Controller
                 return redirect('teacher/dashboard');
             } elseif (Auth::user()->user_type == 3) {
                 return redirect('student/dashboard');
+            } elseif (Auth::user()->user_type == 4) {
+                return redirect('headmaster/dashboard');
+            } elseif (Auth::user()->user_type == 5) {
+                return redirect('stad/dashboard');
             }
         } else {
             // Authentication failed
@@ -110,7 +118,7 @@ class AuthController extends Controller
             $user->remember_token = Str::random(30);
             $user->save();
 
-            return redirect(url(''))->with('success', 'Password successfully reset');
+            return redirect(url('/login'))->with('success', 'Password successfully reset');
         } else {
             // Passwords do not match
             return redirect()->back()->with('error', 'Password and confirm password do not match');
@@ -121,6 +129,6 @@ class AuthController extends Controller
     {
         // Logout the user and redirect to the home page
         Auth::logout();
-        return redirect(url(''));
+        return redirect(url('/login'));
     }
 }

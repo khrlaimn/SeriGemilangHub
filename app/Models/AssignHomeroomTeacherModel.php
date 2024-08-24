@@ -27,9 +27,10 @@ class AssignHomeroomTeacherModel extends Model
             ->join('users', 'users.id', '=', 'assign_homeroom_teacher.created_by')
             ->where('assign_homeroom_teacher.is_delete', '=', 0);
 
-        if (!empty($request->input('class_name'))) {
-            $query->where('class.name', 'like', '%' . $request->input('class_name') . '%');
+        if (!empty($request->input('class_id'))) {
+            $query->where('class.id', '=', $request->input('class_id'));
         }
+
         if (!empty($request->input('teacher_name'))) {
             $query->where('teacher.name', 'like', '%' . $request->input('teacher_name') . '%');
         }
@@ -61,5 +62,22 @@ class AssignHomeroomTeacherModel extends Model
     static public function deleteTeacher($class_id)
     {
         return self::where('class_id', '=', $class_id)->where('is_delete', '=', 0)->get();
+    }
+
+    static public function getMyStudentAttendance($teacher_id)
+    {
+        return AssignHomeroomTeacherModel::select(
+            'assign_homeroom_teacher.class_id',
+            'class.name as class_name',
+            'class.id as class_id',
+            'class.standard',   // Include standard
+            'class.year'        // Include year
+        )
+            ->join('class', 'class.id', '=', 'assign_homeroom_teacher.class_id')
+            ->where('assign_homeroom_teacher.is_delete', '=', 0)
+            ->where('assign_homeroom_teacher.status', '=', 0)
+            ->where('assign_homeroom_teacher.teacher_id', '=', $teacher_id)
+            ->groupBy('assign_homeroom_teacher.class_id', 'class.name', 'class.id', 'class.standard', 'class.year')
+            ->get();
     }
 }

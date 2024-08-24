@@ -28,21 +28,9 @@
                                 <div class="row">
                                     <!-- Name Field -->
                                     <div class="form-group col-md-6">
-                                        <label>First Name <span style="color:red;">*</span> </label>
+                                        <label>Name <span style="color:red;">*</span> </label>
                                         <input type="text" class="form-control" value="{{ old('name') }}" name="name" required placeholder="First Name">
                                         <div style="color:red">{{ $errors->first('name') }}</div>
-                                    </div>
-                                    <!-- Admission Number Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Admission Number <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('admission_number') }}" name="admission_number" required placeholder="Admission Number">
-                                        <div style="color:red">{{ $errors->first('admission_number') }}</div>
-                                    </div>
-                                    <!-- Roll Number Field -->
-                                    <div class="form-group col-md-6">
-                                        <label>Roll Number <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('roll_number') }}" name="roll_number" required placeholder="Roll Number">
-                                        <div style="color:red">{{ $errors->first('roll_number') }}</div>
                                     </div>
                                     <!-- Class Field -->
                                     <div class="form-group col-md-6">
@@ -50,7 +38,9 @@
                                         <select class="form-control" required name="class_id">
                                             <option value="">Select Class</option>
                                             @foreach($getClass as $value)
-                                            <option {{ (old('class_id') == $value->id) ? 'selected' : '' }} value="{{ $value->id }}">{{ $value->name }}</option>
+                                            <option value="{{ $value->id }}" {{ old('class_id') == $value->id ? 'selected' : '' }}>
+                                                Name: {{ $value->name }}, Grade: {{ $value->standard }}, Year: {{ $value->year }}
+                                            </option>
                                             @endforeach
                                         </select>
                                         <div style="color:red">{{ $errors->first('class_id') }}</div>
@@ -110,18 +100,18 @@
 
                                 <hr />
 
-                                <!-- Email Field -->
+                                <!-- Email Field
                                 <div class="form-group">
                                     <label>Email <span style="color:red;">*</span> </label>
                                     <input type="email" class="form-control" value="{{ old('email') }}" name="email" required placeholder="Email">
-                                    <!-- Displaying Validation Error -->
+                                    Displaying Validation Error
                                     <div style="color:red">{{ $errors->first('email') }}</div>
                                 </div>
-                                <!-- Password Field -->
+                                Password Field
                                 <div class="form-group">
                                     <label>Password <span style="color:red;">*</span> </label>
                                     <input type="password" class="form-control" name="password" required placeholder="Password">
-                                </div>
+                                </div> -->
                             </div>
                             <!-- Form Footer -->
                             <div class="card-footer">
@@ -134,7 +124,6 @@
             </div>
         </div>
     </section>
-    <!-- /.content -->
 </div>
 
 @endsection

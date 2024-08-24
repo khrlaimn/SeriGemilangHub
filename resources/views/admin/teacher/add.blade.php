@@ -28,8 +28,8 @@
                                 <div class="row">
                                     <!-- Name Field -->
                                     <div class="form-group col-md-6">
-                                        <label>First Name <span style="color:red;">*</span> </label>
-                                        <input type="text" class="form-control" value="{{ old('name') }}" name="name" required placeholder="First Name">
+                                        <label>Name <span style="color:red;">*</span> </label>
+                                        <input type="text" class="form-control" value="{{ old('name') }}" name="name" required placeholder="Name">
                                         <div style="color:red">{{ $errors->first('name') }}</div>
                                     </div>
                                     <!-- Gender Field -->

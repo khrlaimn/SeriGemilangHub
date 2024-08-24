@@ -12,6 +12,7 @@ class ClassController extends Controller
     public function list(Request $request)
     {
         $data['getRecord'] = ClassModel::getRecord($request);
+        $data['standards'] = ['1', '2', '3', '4', '5', '6'];
 
         $data['header_title'] = "Class List";
         return view('admin.class.list', $data);
@@ -21,21 +22,30 @@ class ClassController extends Controller
     public function add()
     {
         $data['header_title'] = "Add New Class";
+        $data['standards'] = ['1', '2', '3', '4', '5', '6'];
         return view('admin.class.add', $data);
     }
 
     // Store a newly created class in storage
     public function insert(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'standard' => 'required|integer|between:1,6',
+            'year' => 'required|digits:4',
+            'status' => 'required|boolean',
+        ]);
+
         $save = new ClassModel;
         $save->name = $request->name;
+        $save->standard = $request->standard;
+        $save->year = $request->year;
         $save->status = $request->status;
         $save->created_by = Auth::user()->id;
         $save->save();
 
         return redirect('admin/class/list')->with('success', "Class successfully created");
     }
-
     // Show the form for editing the specified class
     public function edit($id)
     {
@@ -53,6 +63,8 @@ class ClassController extends Controller
     {
         $save = ClassModel::getSingle($id);
         $save->name = $request->name;
+        $save->standard = $request->standard;
+        $save->year = $request->year;
         $save->status = $request->status;
         $save->save();
 

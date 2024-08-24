@@ -1,20 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Homeroom Teacher</h1> <!-- Page title -->
+                    <h1>Edit Homeroom Teacher</h1>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -32,29 +29,35 @@
 
                     <div class="card card-primary">
                         <!-- Form -->
-                        <form method="post" action="">
+                        <form method="post" action="{{ route('admin.assign_homeroom_teacher.update', $getRecord->id) }}">
                             <!-- CSRF Token -->
-                            {{ csrf_field() }}
+                            @csrf
+                            @method('PUT')
                             <div class="card-body">
-                                <!-- Class Name Field -->
+
+                                <!-- Class Selection -->
                                 <div class="form-group">
-                                    <label>Class Name <span style="color:red;">*</span> </label>
+                                    <label>Class <span style="color:red;">*</span> </label>
                                     <select class="form-control" required name="class_id">
                                         <option value="">Select Class</option>
                                         @foreach($getClass as $class)
-                                        <option {{ ($getRecord->class_id == $class->id) ? 'selected' : '' }} value="{{ $class->id }}">{{ $class->name }}</option>
+                                        <option value="{{ $class->id }}" {{ ($class->id == $getRecord->class_id) ? 'selected' : '' }}>
+                                            Name: {{ $class->name }}, Grade: {{ $class->standard }}, Year: {{ $class->year }}
+                                        </option>
                                         @endforeach
                                     </select>
                                     <div style="color:red">{{ $errors->first('class_id') }}</div>
                                 </div>
 
-                                <!-- Homeroom Teacher Field -->
+                                <!-- Homeroom Teacher Name Field -->
                                 <div class="form-group">
                                     <label>Homeroom Teacher Name <span style="color:red;">*</span> </label>
                                     <select class="form-control" required name="teacher_id">
                                         <option value="">Select Teacher</option>
                                         @foreach($getTeacher as $teacher)
-                                        <option {{ ($getRecord->teacher_id == $teacher->id) ? 'selected' : '' }} value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                        <option value="{{ $teacher->id }}" {{ ($getRecord->teacher_id == $teacher->id) ? 'selected' : '' }}>
+                                            {{ $teacher->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                     <div style="color:red">{{ $errors->first('teacher_id') }}</div>
@@ -62,26 +65,22 @@
 
                                 <!-- Dropdown for status -->
                                 <div class="form-group">
-                                    <label>Status</label>
+                                    <label>Status <span style="color:red;">*</span></label>
                                     <select class="form-control" name="status">
-                                        <option {{ ($getRecord->status == 0) ? 'selected' : '' }} value="0">Active</option>
-                                        <option {{ ($getRecord->status == 1) ? 'selected' : '' }} value="1">Inactive</option>
+                                        <option value="0" {{ ($getRecord->status == 0) ? 'selected' : '' }}>Active</option>
+                                        <option value="1" {{ ($getRecord->status == 1) ? 'selected' : '' }}>Inactive</option>
                                     </select>
                                 </div>
 
                             </div>
-                            <!-- Form Footer -->
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Update</button> <!-- Submit button -->
                             </div>
                         </form>
-                        <!-- End Form -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- /.content -->
 </div>
-
 @endsection

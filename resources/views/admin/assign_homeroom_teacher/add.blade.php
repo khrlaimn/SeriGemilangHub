@@ -34,42 +34,47 @@
                         <!-- Form -->
                         <form method="post" action="">
                             <!-- CSRF Token -->
-                            {{ csrf_field() }}
+                            @csrf
                             <div class="card-body">
-                                <!-- Class Name Field -->
                                 <div class="form-group">
                                     <label>Class Name <span style="color:red;">*</span> </label>
                                     <select class="form-control" required name="class_id">
                                         <option value="">Select Class</option>
-                                        @foreach($getClass as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        @foreach($getClass as $class)
+                                        <option value="{{ $class->id }}" {{ old('class_id') == $class->id ? 'selected' : '' }}>
+                                            Name: {{ $class->name }}, Grade: {{ $class->standard }}, Year: {{ $class->year }}
+                                        </option>
                                         @endforeach
                                     </select>
                                     <div style="color:red">{{ $errors->first('class_id') }}</div>
                                 </div>
-                                <!-- Homeroom Teacher Field -->
+
                                 <div class="form-group">
                                     <label>Homeroom Teacher Name <span style="color:red;">*</span> </label>
                                     <select class="form-control" required name="teacher_id">
-                                        <option value="">Select Class</option>
+                                        <option value="">Select Teacher</option>
                                         @foreach($getTeacher as $teacher)
-                                        <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                        <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
+                                            {{ $teacher->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                     <div style="color:red">{{ $errors->first('teacher_id') }}</div>
                                 </div>
+
+
                                 <div class="form-group">
-                                    <label>Status</label> <!-- Dropdown for status -->
+                                    <label>Status <span style="color:red;">*</span></label>
                                     <select class="form-control" name="status">
-                                        <option value="0">Active</option>
-                                        <option value="1">Inactive</option>
+                                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Active</option>
+                                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Inactive</option>
                                     </select>
                                 </div>
-                            </div>
-                            <!-- Form Footer -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Assign Class Teacher</button> <!-- Submit button -->
-                            </div>
+
+                                <!-- Form Footer -->
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Assign Class Teacher</button> <!-- Submit button -->
+                                </div>
                         </form>
                         <!-- End Form -->
                     </div>

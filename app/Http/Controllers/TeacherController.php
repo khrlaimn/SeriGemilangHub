@@ -134,7 +134,7 @@ class TeacherController extends Controller
             $teacher->save();
 
             // Redirect with success message
-            return redirect('admin/teacher/list')->with('success', 'Teacher Successfully Updated');
+            return redirect()->back()->with('success', 'Teacher Successfully Updated');
         } else {
             // If record not found, show 404 error
             abort(404);

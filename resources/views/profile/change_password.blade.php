@@ -3,18 +3,16 @@
 @section('content')
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Change Password</h1> <!-- Page title -->
+                    <h1>Change Password</h1>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -29,35 +27,25 @@
                         {{ session('error') }}
                     </div>
                     @endif
-                    <div class="card card-primary">
-                        <!-- Form -->
-                        <form method="post" action="">
-                            <!-- CSRF Token -->
-                            {{ csrf_field() }}
-                            <div class="card-body">
-                                <!-- Old Password Field -->
-                                <div class="form-group">
-                                    <label>Old Password</label> <!-- Input for old password -->
-                                    <input type="password" class="form-control" name="old_password" required placeholder="Old Password">
-                                </div>
-                                <!-- New Password Field -->
-                                <div class="form-group">
-                                    <label>New Password</label> <!-- Input for new password -->
-                                    <input type="password" class="form-control" name="new_password" required placeholder="New Password">
-                                </div>
-                            </div>
-                            <!-- Form Footer -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Update New Password</button> <!-- Submit button -->
-                            </div>
-                        </form>
-                        <!-- End Form -->
-                    </div>
+                    <!-- Form -->
+                    <form method="post" action="">
+                        @csrf
+                        <div class="form-group">
+                            <label for="old_password">Old Password</label>
+                            <input type="password" class="form-control" id="old_password" name="old_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">New Password</label>
+                            <input type="password" class="form-control" id="new_password" name="new_password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </form>
+
                 </div>
             </div>
         </div>
-    </section>
-    <!-- /.content -->
+</div>
+</section>
 </div>
 
 @endsection

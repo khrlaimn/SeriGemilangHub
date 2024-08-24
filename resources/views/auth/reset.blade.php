@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Reset Password</title>
 
+    <link rel="icon" href="{{ asset('favicon.png') }}">
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -72,7 +74,7 @@
             <!-- Login link -->
             <p class="mb-1">
                 <br />
-                <a href="{{ url('') }}">Login</a>
+                <a href="{{ url('/login') }}">Login</a>
             </p>
         </div>
         <!-- /.card-body -->

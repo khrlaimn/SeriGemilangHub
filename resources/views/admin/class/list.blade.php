@@ -8,8 +8,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <!-- Title with total count of classes -->
-                    <h1>Class List</h1>
                 </div>
                 <div class="col-sm-6" style="text-align: right;">
                     <!-- Button to add a new class -->
@@ -35,9 +33,24 @@
                             <div class="card-body">
                                 <div class="row">
                                     <!-- Name Field -->
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label>Name</label>
                                         <input type="text" class="form-control" value="{{ Request::get('name') }}" name="name" placeholder="Name">
+                                    </div>
+                                    <!-- Standard Field -->
+                                    <div class="form-group col-md-2">
+                                        <label>Standard</label>
+                                        <select class="form-control" name="standard">
+                                            <option value="">Select Standard</option>
+                                            @foreach($standards as $std)
+                                            <option {{ (Request::get('standard') == $std) ? 'selected' : '' }}>{{ $std }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <!-- Year Field -->
+                                    <div class="form-group col-md-2">
+                                        <label>Year</label>
+                                        <input type="text" class="form-control" value="{{ Request::get('year') }}" name="year" placeholder="Year">
                                     </div>
                                     <!-- Status Field -->
                                     <div class="form-group col-md-2">
@@ -49,11 +62,11 @@
                                         </select>
                                     </div>
                                     <!-- Date Field -->
-                                    <div class="form-group  col-md-3">
+                                    <!-- <div class="form-group col-md-2">
                                         <label>Date</label>
                                         <input type="date" class="form-control" value="{{ Request::get('date') }}" name="date" placeholder="Date">
-                                    </div>
-                                    <div class="form-group col-md-3">
+                                    </div> -->
+                                    <div class="form-group col-md-2">
                                         <!-- Search and Reset buttons -->
                                         <button class="btn btn-primary" type="submit" style="margin-top: 30px;">Search</button>
                                         <a href="{{ url('admin/class/list') }}" class="btn btn-success" style="margin-top: 30px;">Reset</a>
@@ -61,8 +74,10 @@
                                 </div>
                             </div>
                         </form>
+
                         <!-- End of Search form -->
                     </div>
+
 
                     <!-- Display success or error messages -->
                     @if(session('success'))
@@ -85,19 +100,26 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">#</th>
+                                        <th>No.</th>
                                         <th>Name</th>
+                                        <th>Standard</th>
+                                        <th>Year</th>
                                         <th>Status</th>
-                                        <th>Created By</th>
-                                        <th>Created Date</th>
+                                        <!-- <th>Created By</th>
+                                        <th>Created Date</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($getRecord as $value)
+                                    @php
+                                    $offset = ($getRecord->currentPage() - 1) * $getRecord->perPage();
+                                    @endphp
+                                    @foreach ($getRecord as $value)
                                     <tr>
-                                        <td>{{ $value->id }}</td>
+                                        <td>{{ $offset + $loop->iteration }}</td>
                                         <td>{{ $value->name }}</td>
+                                        <td>{{ $value->standard }}</td>
+                                        <td>{{ $value->year }}</td>
                                         <td>
                                             @if ($value->status == 0)
                                             <span class="badge badge-success">Active</span>
@@ -105,8 +127,8 @@
                                             <span class="badge badge-danger">Inactive</span>
                                             @endif
                                         </td>
-                                        <td>{{ $value->created_by_name }}</td>
-                                        <td>{{ date('d-m-Y H:i A', strtotime($value->created_at)) }}</td>
+                                        <!-- <td>{{ $value->created_by_name }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($value->created_at)) }}</td> -->
                                         <td>
                                             <a href="{{ url('admin/class/edit/' . $value->id) }}" class="btn btn-primary">Edit</a>
                                             <a href="{{ url('admin/class/delete/' . $value->id) }}" onclick="return confirm('Confirm DELETE?')" class="btn btn-danger">Delete</a>
