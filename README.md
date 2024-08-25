@@ -1,66 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SeriGemilangHub (SGH) - School Management Web Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+SeriGemilangHub (SGH) is a revolutionary web application designed to streamline and enhance the management of student attendance, teacher whereabouts, and school event announcements for Sekolah Kebangsaan Seri Gemilang (SKSG). This project aims to address the current inefficiencies and complexities in SKSG's administrative processes, providing a more precise and effective communication and management tool for the school community.
 
-## About Laravel
+## 1. Project Background
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Sekolah Kebangsaan Seri Gemilang (SKSG) is currently grappling with a complex and inefficient system for recording teacher whereabouts and student attendance. The existing process is heavily reliant on a Telegram group for teacher whereabouts and a WhatsApp group for tracking student attendance, both of which involve multiple stakeholders and cumbersome procedures.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1.1 Current Challenges
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Student Attendance**:
+  - The current system involves class leaders gathering attendance information during the first student assembly.
+  - Classroom teachers then share this information with the Head of Student Affairs via a WhatsApp group that includes 18 classes.
+  - The Head of Student Affairs is responsible for submitting the student absence data to the APDM (Aplikasi Pengkalan Data Murid) on the Ministry of Education's website.
+  - This process involves numerous digital and manual stages, leading to delays, miscommunications, and a high volume of messages.
 
-## Learning Laravel
+- **Teacher Whereabouts**:
+  - Teachers on emergency leave must inform the headmistress, who then approves or declines the request.
+  - Teachers are required to notify their colleagues and the Senior Administrative Assistant via a Telegram group.
+  - The Senior Administrative Assistant must then upload the absence records to the Ministry of Education's e-OPERASI website.
+  - Similar procedures apply for special leave requests (CRK - Cuti Rehat Khas), leading to potential misunderstandings and privacy concerns.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1.2 The Need for SGH
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+The existing systems are not only inefficient but also cause confusion, miscommunication, and privacy issues. The need for a streamlined, centralized system is evident, and SGH aims to fill this gap by offering a web-based solution that simplifies these administrative tasks and enhances communication within the school community.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 2. Problem Statement
 
-## Laravel Sponsors
+SKSG faces several challenges with its current methods of managing student attendance, teacher whereabouts, and school event announcements:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Student Attendance**:
+  - The use of a WhatsApp group for reporting attendance results in a high volume of messages, making it difficult for the Head of Student Affairs to efficiently track and record attendance across 18 classes.
 
-### Premium Partners
+- **Teacher Whereabouts**:
+  - The use of a Telegram group for reporting teacher whereabouts lacks privacy and can lead to issues with teachers' integrity due to the absence of detailed explanations for absences.
+  - This results in inefficiencies and potential communication issues within the school's administrative procedures.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- **Communication Channels**:
+  - The use of separate platforms (WhatsApp for general and event announcements, and Telegram for weekly updates and duty rosters) leads to inefficiencies and possible misunderstandings.
+  - Teachers and administrative staff are burdened by having to switch between multiple channels, resulting in an overload of communication and a lack of centralized information.
 
-## Contributing
+## 3. Project Objectives
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The SeriGemilangHub (SGH) project aims to achieve the following objectives:
 
-## Code of Conduct
+- **Objective 1**: Identify the problems in managing student attendance, teacher whereabouts, and school event announcements.
+- **Objective 2**: Elicit and analyze user requirements to address the identified problems.
+- **Objective 3**: Design a user-friendly web application for managing student attendance and teacher whereabouts.
+- **Objective 4**: Develop the web application according to the specified requirements.
+- **Objective 5**: Test the developed system to ensure it meets the required specifications.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 4. Solution Overview
 
-## Security Vulnerabilities
+SeriGemilangHub (SGH) offers the following solutions:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Simplified Attendance Submission**:
+  - Teachers can effortlessly communicate student attendance directly to the Head of Student Affairs through the SGH platform, eliminating the need for WhatsApp group messages.
 
-## License
+- **Secure Teacher Whereabouts Management**:
+  - Teachers can securely communicate their whereabouts through SGH, removing the dependency on Telegram group chats and ensuring privacy.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Centralized School Hub**:
+  - SGH serves as a comprehensive central hub for the school community, featuring components such as school events, announcements, and a weekly teacher-duty roster.
+
+By addressing the inefficiencies of the current systems, SGH transforms the way SKSG manages attendance, communicates whereabouts, and engages with its community.
+
+## 5. Technologies Used
+
+- **Laravel** (Backend Framework)
+- **Bootstrap** (Frontend Framework)
+- **MySQL** (Database)
+- **JavaScript** (Frontend Interaction)
+
+## 6. License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
